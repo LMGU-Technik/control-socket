@@ -1,0 +1,11 @@
+{
+    "imports": {
+        "async_generator_callback": "https://deno.land/x/async_generator_callback@v1.0.0/mod.ts",
+        "lock": "https://deno.land/x/simple_promise_lock@v2.1.0/deno/lock.ts",
+        "typedSignal/": "https://deno.land/x/typed_signal@v0.1.2/",
+        "@repeaterjs/repeater": "npm:@repeaterjs/repeater"
+    },
+    "fmt": {
+        "indentWidth": 4
+    }
+}

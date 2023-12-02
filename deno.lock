@@ -1,0 +1,24 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:@repeaterjs/repeater": "npm:@repeaterjs/repeater@3.0.5"
+    },
+    "npm": {
+      "@repeaterjs/repeater@3.0.5": {
+        "integrity": "sha512-l3YHBLAol6d/IKnB9LhpD0cEZWAoe3eFKUyTYWmFmCO2Q/WOckxLQAUyMZWwZV2M/m3+4vgRoaolFqaII82/TA==",
+        "dependencies": {}
+      }
+    }
+  },
+  "remote": {
+    "https://deno.land/x/async_generator_callback@v1.0.0/mod.ts": "f3c686ba198fb3ba14ea4fbe435663cac610d4c882a854c319011589e6181877",
+    "https://deno.land/x/simple_promise_lock@v2.1.0/deno/lock.ts": "3d82089d01d1615fea504ae626690f6d4eff747eaec9b46fd1c708da18ce55f2",
+    "https://deno.land/x/typed_signal@v0.1.2/mod.ts": "63ffd7b13f3a139c8a4b673a0f9067084d2549e62a08d2a69a125ad00b4003db",
+    "https://deno.land/x/typed_signal@v0.1.2/src/cast.ts": "9f4eff9f190be45ed9a92f72e62ce0cc33ed69603acf3ac39065d3f5ca36e306",
+    "https://deno.land/x/typed_signal@v0.1.2/src/signal.ts": "3f4d9b240dd82ffa842e58d52fd34656a87f34127afa8c012229c8cb11d6b1d9",
+    "https://deno.land/x/typed_signal@v0.1.2/src/signalVariable.ts": "89256a6fd49a66758cb646b38d6b79453e50af42a102be50fb78a3546b255dda",
+    "https://deno.land/x/typed_signal@v0.1.2/src/unsureBool.ts": "49e4e63bd16d408ed73338bf0999e664207263bf289594ba1b28d96f9a716c2c",
+    "https://deno.land/x/unsure_bool@v1.0.0/mod.ts": "0ca247fbe04c27c2e8b719b920c9240c2e086af0e1479e3196bd75ba4e055bac"
+  }
+}
