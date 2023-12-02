@@ -17,12 +17,14 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { SignalVariable } from "typedSignal/mod.ts";
+import {
+    AsyncGeneratorCallback,
+    Cast,
+    Repeater,
+    SignalVariable,
+} from "../deps.ts";
 import { ControlSocket } from "./socket.ts";
-import { AsyncGeneratorCallback } from "async_generator_callback";
-import { Repeater } from "@repeaterjs/repeater";
 import { ConnState, ConnStateReason } from "./state.ts";
-import { Cast } from "typedSignal/src/cast.ts";
 
 export class UnexpectedError extends Error {
     constructor(msg: string, err: unknown) {

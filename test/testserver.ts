@@ -17,7 +17,7 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Repeater } from "@repeaterjs/repeater";
+import { Repeater } from "../deps.ts";
 
 export function testServer(port: number) {
     return new Repeater(async (push, stop) => {

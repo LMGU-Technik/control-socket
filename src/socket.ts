@@ -17,7 +17,7 @@
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { TypedSignal } from "typedSignal/mod.ts";
+import { TypedSignal } from "../deps.ts";
 
 export abstract class ControlSocket {
     abstract send(data: Uint8Array): void;
