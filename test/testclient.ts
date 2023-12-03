@@ -31,7 +31,7 @@ export class TestClient extends TCPControlSocket {
         super("127.0.0.1", 9000);
         const nums = num();
         setInterval(() => {
-            this.send(new Uint8Array([nums.next().value || 0]));
+            this.writeSocket(new Uint8Array([nums.next().value || 0]));
         }, 500);
     }
     protected recv(data: Uint8Array): void {

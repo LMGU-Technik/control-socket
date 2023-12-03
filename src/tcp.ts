@@ -44,7 +44,7 @@ export abstract class TCPControlSocket extends ControlSocket {
         this.connect();
     }
 
-    private onSend = new AsyncGeneratorCallback<Uint8Array>();
+    private onWrite = new AsyncGeneratorCallback<Uint8Array>();
     public readonly connState = new SignalVariable<ConnState>(
         ConnState.DISCONNECTED,
     );
@@ -145,7 +145,7 @@ export abstract class TCPControlSocket extends ControlSocket {
 
                     // send
                     (async () => {
-                        for await (const data of this.onSend) {
+                        for await (const data of this.onWrite) {
                             await conn.write(data).catch((err) => {
                                 if (err instanceof Error) {
                                     if (err.name === "BadResource") {
@@ -156,8 +156,8 @@ export abstract class TCPControlSocket extends ControlSocket {
                                             ConnStateReason.BAD_RESOURCE,
                                         );
                                         // handle here to prevent data loss
-                                        this.onSend[Symbol.dispose]();
-                                        this.onSend.call(data); // data would be lost
+                                        this.onWrite[Symbol.dispose]();
+                                        this.onWrite.call(data); // data would be lost
                                         stop();
                                     } else {
                                         throw new UnexpectedError(
@@ -190,7 +190,7 @@ export abstract class TCPControlSocket extends ControlSocket {
                             ConnStateReason.BAD_RESOURCE,
                         )
                     ) { // already handled
-                        this.onSend[Symbol.dispose]();
+                        this.onWrite[Symbol.dispose]();
                     }
 
                     try { // might be closed already
@@ -251,7 +251,7 @@ export abstract class TCPControlSocket extends ControlSocket {
         }
     }
 
-    send(data: Uint8Array) {
-        this.onSend.call(data);
+    writeSocket(data: Uint8Array) {
+        this.onWrite.call(data);
     }
 }

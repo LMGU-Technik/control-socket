@@ -20,7 +20,7 @@
 import { TypedSignal } from "../deps.ts";
 
 export abstract class ControlSocket {
-    abstract send(data: Uint8Array): void;
+    protected abstract writeSocket(data: Uint8Array): void;
     protected abstract recv(data: Uint8Array): void;
     public abstract connected: TypedSignal<boolean>;
 }
