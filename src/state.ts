@@ -30,4 +30,5 @@ export enum ConnStateReason {
     ECONNREFUSED,
     ECONNRESET,
     BAD_RESOURCE,
+    TIMEOUT,
 }

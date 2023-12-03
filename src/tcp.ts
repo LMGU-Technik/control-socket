@@ -80,6 +80,10 @@ export abstract class TCPControlSocket extends ControlSocket {
                                 this.connStateReason.setValue(
                                     ConnStateReason.ECONNREFUSED,
                                 );
+                            } else if (err.name === "TimedOut") {
+                                this.connStateReason.setValue(
+                                    ConnStateReason.TIMEOUT,
+                                );
                             } else {
                                 throw new UnexpectedError(
                                     `[TCPControlSocket::connect::Deno.connect] unexpected error '${err.name}'`,
@@ -119,7 +123,7 @@ export abstract class TCPControlSocket extends ControlSocket {
                                 );
                                 this.stats_econnreset_time.push(
                                     performance.now() -
-                                        this.stats_connStart_time,
+                                    this.stats_connStart_time,
                                 );
                                 stop();
                             } else {
