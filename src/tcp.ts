@@ -216,6 +216,7 @@ export abstract class TCPControlSocket extends ControlSocket {
                     this.connState.setValue(ConnState.DISCONNECTED);
                 })
             ) {
+                this.stats_econnreset_time.shift(); // connection works
                 this.recv(data);
             }
         } catch (err) {
