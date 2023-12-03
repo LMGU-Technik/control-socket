@@ -59,6 +59,9 @@ export abstract class TCPControlSocket extends ControlSocket {
     private stats_econnreset_time: number[] = [];
     private stats_connStart_time = 0;
 
+    public option_econnreset_threshold = 500;
+    public option_econnreset_delay = 5000;
+
     private async connect() {
         try {
             for await (
@@ -233,19 +236,20 @@ export abstract class TCPControlSocket extends ControlSocket {
                 this.stats_econnreset_time.length;
 
             if (
-                avg_econnreset_time < 500 &&
+                avg_econnreset_time < this.option_econnreset_threshold &&
                 this.stats_econnreset_time.length > 3
             ) {
                 this.econnresetLimit.setValue(true);
                 setTimeout(() => {
                     this.connect();
-                }, 5000);
+                }, this.option_econnreset_delay);
             } else {
                 this.connect();
                 this.econnresetLimit.setValue(false);
             }
         }
     }
+
     send(data: Uint8Array) {
         this.onSend.call(data);
     }
