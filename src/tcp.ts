@@ -62,6 +62,8 @@ export abstract class TCPControlSocket extends ControlSocket {
     public option_econnreset_threshold = 500;
     public option_econnreset_delay = 5000;
 
+    private flag_send_handled = false;
+
     private async connect() {
         try {
             for await (
@@ -126,7 +128,7 @@ export abstract class TCPControlSocket extends ControlSocket {
                                 );
                                 this.stats_econnreset_time.push(
                                     performance.now() -
-                                    this.stats_connStart_time,
+                                        this.stats_connStart_time,
                                 );
                                 stop();
                             } else {
@@ -148,23 +150,28 @@ export abstract class TCPControlSocket extends ControlSocket {
                         for await (const data of this.onWrite) {
                             await conn.write(data).catch((err) => {
                                 if (err instanceof Error) {
+                                    this.connState.setValue(
+                                        ConnState.DISCONNECTED,
+                                    );
                                     if (err.name === "BadResource") {
-                                        this.connState.setValue(
-                                            ConnState.DISCONNECTED,
-                                        );
                                         this.connStateReason.setValue(
                                             ConnStateReason.BAD_RESOURCE,
                                         );
-                                        // handle here to prevent data loss
-                                        this.onWrite[Symbol.dispose]();
-                                        this.onWrite.call(data); // data would be lost
-                                        stop();
+                                    } else if (err.name === "ConnectionReset") {
+                                        this.connStateReason.setValue(
+                                            ConnStateReason.ECONNRESET,
+                                        );
                                     } else {
                                         throw new UnexpectedError(
                                             `[TCPControlSocket::connect::send] unexpected error '${err.name}'`,
                                             err,
                                         );
                                     }
+                                    // handle here to prevent data loss
+                                    this.onWrite[Symbol.dispose]();
+                                    this.onWrite.call(data); // data would be lost
+                                    this.flag_send_handled = true;
+                                    stop();
                                 } else {
                                     throw new UnexpectedError(
                                         `[TCPControlSocket::connect::send] unexpected error type`,
@@ -185,12 +192,9 @@ export abstract class TCPControlSocket extends ControlSocket {
 
                     this.connState.setValue(ConnState.DISCONNECTING);
 
-                    if (
-                        !this.connStateReason.equals(
-                            ConnStateReason.BAD_RESOURCE,
-                        )
-                    ) { // already handled
+                    if (!this.flag_send_handled) {
                         this.onWrite[Symbol.dispose]();
+                        this.flag_send_handled = false;
                     }
 
                     try { // might be closed already
